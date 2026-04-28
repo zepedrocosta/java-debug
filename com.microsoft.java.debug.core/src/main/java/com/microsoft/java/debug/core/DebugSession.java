@@ -117,7 +117,11 @@ public class DebugSession implements IDebugSession {
 
     @Override
     public void detach() {
-        vm.dispose();
+        try {
+            vm.dispose();
+        } catch (VMDisconnectedException ex) {
+            // ignore — VM already disconnected (e.g. process was terminated first)
+        }
     }
 
     @Override
